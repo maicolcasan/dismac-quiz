@@ -1,7 +1,7 @@
 // Dismac Quiz · ranking general (Vercel Function + Upstash Redis)
 // Variables de entorno: las crea Vercel al conectar Upstash Redis al proyecto
 // (KV_REST_API_URL / KV_REST_API_TOKEN o UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN).
-const CATS = new Set(["lav-superior", "lav-frontal", "secadora", "refrigerador", "cocina", "televisor", "microondas", "aire", "mitos", "garantia"]);
+const CATS = new Set(["lav-superior", "lav-frontal", "secadora", "refrigerador", "cocina", "televisor", "microondas", "aire", "mitos", "garantia", "nohagas"]);
 const MAX_SCORE = 16000;   // 8 preguntas x 1.000 pts x racha x2
 const KEEP = 1000;         // puntajes guardados por categoría
 const PER_MINUTE = 12;     // envíos por IP por minuto
