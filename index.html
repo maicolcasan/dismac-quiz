@@ -69,6 +69,39 @@ button{font:inherit;color:inherit;cursor:pointer}
 .namecard input{width:100%;border:3px solid var(--ink);border-radius:14px;padding:12px 14px;font:700 19px var(--body);color:var(--ink);background:var(--cream)}
 .namecard input::placeholder{color:#9A8F7C}
 .namecard input:focus{outline:none;background:#fff;box-shadow:0 0 0 4px var(--gold)}
+.namecard input{text-transform:uppercase;letter-spacing:2px;font-family:var(--display);font-weight:400;font-size:24px}
+.namecard input::placeholder{text-transform:none;letter-spacing:0;font-family:var(--body);font-weight:700;font-size:18px}
+.namecard .hint{font-size:14px;font-weight:700;color:var(--muted)}
+.namecard .err{font-size:15px;font-weight:800;color:var(--bad)}
+.namecard.need{animation:shake .4s;box-shadow:0 0 0 5px var(--gold),var(--sh)}
+.namecard.ready label::after{content:" ✓";color:var(--ok)}
+.rank-open{margin-top:14px}
+/* ranking */
+.rank{margin-top:18px;padding:16px 16px 12px}
+.rank-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.rank-h svg{width:34px;height:34px;flex:none}
+.rank-h h3{margin:0;font-family:var(--display);font-weight:400;font-size:28px;line-height:1}
+.rank-sub{font-size:13px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.rank-you{background:var(--gold);border:3px solid var(--ink);border-radius:14px;padding:8px 12px;font-weight:900;font-size:16px;margin-bottom:10px;text-align:center}
+.rank ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--cream);font-variant-numeric:tabular-nums}
+.rank li .pos{font-family:var(--display);font-size:20px;text-align:center;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--ink);background:#fff}
+.rank li:nth-child(1) .pos{background:#FFC83D}
+.rank li:nth-child(2) .pos{background:#D9DDE3}
+.rank li:nth-child(3) .pos{background:#E3A36B}
+.rank li .nm{font-family:var(--display);font-size:20px;letter-spacing:1.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank li .pt{font-family:var(--display);font-size:20px}
+.rank li.me{background:var(--ink);color:#fff}
+.rank li.me .pos{color:var(--ink)}
+.rank li.gap-row{background:transparent;justify-content:center;display:block;text-align:center;padding:0;font-weight:900;color:var(--muted)}
+.rank .empty{padding:14px;text-align:center;font-weight:700;color:var(--muted)}
+.rank .loading{padding:14px;text-align:center;font-weight:800}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:3px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:900;font-size:14px;background:#fff;white-space:nowrap}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+.board-top{display:flex;align-items:center;justify-content:space-between;padding-block:16px 6px}
+.board-top h2{margin:0;font-family:var(--display);font-weight:400;font-size:38px;color:#fff;text-shadow:3px 3px 0 var(--ink)}
 
 .sec{display:flex;align-items:center;gap:12px;margin:30px 0 14px;font-family:var(--display);font-weight:400;font-size:30px;color:#fff;text-shadow:3px 3px 0 var(--ink);letter-spacing:.5px}
 .sec::after{content:"";flex:1;height:4px;background:var(--ink);border-radius:2px}
@@ -251,10 +284,13 @@ button{font:inherit;color:inherit;cursor:pointer}
       <p class="lead">¿Cuánto sabes cuidar tus electrodomésticos? Elige una categoría, responde rápido y suma puntos.</p>
     </section>
 
-    <div class="card namecard">
-      <label for="player">¿CÓMO TE LLAMAS?</label>
-      <input id="player" maxlength="24" autocomplete="nickname" placeholder="Escribe tu nombre de jugador">
+    <div class="card namecard" id="namecard">
+      <label for="player">INGRESA TU NOMBRE PARA JUGAR</label>
+      <input id="player" maxlength="12" autocomplete="nickname" autocapitalize="characters" spellcheck="false" placeholder="Tu nombre o apodo" aria-describedby="name-hint name-err">
+      <span class="hint" id="name-hint">Así aparecerás en el ranking. De 2 a 12 letras.</span>
+      <span class="err" id="name-err" role="alert" hidden>¡Primero escribe tu nombre para jugar!</span>
     </div>
+    <button class="big-btn white rank-open" id="open-board" type="button">VER RANKING</button>
 
     <h2 class="sec">ELIGE TU CATEGORÍA</h2>
     <div class="cats" id="cats"></div>
@@ -292,6 +328,17 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="gap"></div>
   </main>
 
+  <!-- BOARD -->
+  <main id="board" class="wrap" hidden>
+    <div class="board-top">
+      <h2>RANKING</h2>
+      <button class="quit" id="board-back" type="button">← Volver</button>
+    </div>
+    <div class="tabs" id="tabs" role="group" aria-label="Categorías"></div>
+    <section class="card rank" id="board-rank"></section>
+    <div class="gap"></div>
+  </main>
+
   <!-- RESULT -->
   <main id="result" class="wrap" hidden>
     <section class="card res">
@@ -309,6 +356,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       <div class="card"><b id="r-streak">0</b><span>mejor racha</span></div>
       <div class="card"><b id="r-best">0</b><span>tu récord</span></div>
     </div>
+    <section class="card rank" id="r-rank" aria-live="polite"></section>
     <div class="actions">
       <button class="big-btn gold" id="again" type="button">JUGAR DE NUEVO</button>
       <button class="big-btn white" id="other" type="button">OTRA CATEGORÍA</button>
@@ -355,7 +403,7 @@ $('ringfg').style.strokeDasharray = CIRC;
 const mascot = (k) => $(k === 'happy' ? 't-happy' : 't-angry').innerHTML;
 const fmt = (n) => n.toLocaleString('es-BO');
 function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-function show(id){ ['home','play','result'].forEach(s => $(s).hidden = s !== id); hideSheet(); window.scrollTo(0, 0); }
+function show(id){ ['home','play','result','board'].forEach(s => $(s).hidden = s !== id); hideSheet(); window.scrollTo(0, 0); }
 function hideSheet(){ $('sheet').hidden = true; $('sheet').innerHTML = ''; $('play').classList.remove('has-sheet'); }
 
 function confetti(n){
@@ -376,8 +424,103 @@ function confetti(n){
 
 /* ---------- home ---------- */
 const nameInput = $('player');
+const cleanName = (v) => String(v || '').normalize('NFC').toUpperCase().replace(/[^A-Z0-9ÁÉÍÓÚÑÜ .-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12);
+const playerName = () => cleanName(nameInput.value);
+function syncName(){
+  const ok = playerName().length >= 2;
+  $('namecard').classList.toggle('ready', ok);
+  if (ok) $('name-err').hidden = true;
+  return ok;
+}
 nameInput.value = store.get('dq-name', '');
-nameInput.addEventListener('input', () => store.set('dq-name', nameInput.value.trim()));
+syncName();
+nameInput.addEventListener('input', () => { store.set('dq-name', nameInput.value.trim()); syncName(); });
+function needName(){
+  const card = $('namecard');
+  $('name-err').hidden = false;
+  card.classList.remove('need'); void card.offsetWidth; card.classList.add('need');
+  card.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
+  setTimeout(() => nameInput.focus({ preventScroll: true }), RM ? 0 : 350);
+}
+
+/* ---------- ranking: global (Vercel + Upstash) with on-device fallback ---------- */
+const API = '/api/ranking';
+async function apiCall(method, params){
+  const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 5000);
+  try {
+    const url = method === 'GET' ? `${API}?cat=${encodeURIComponent(params.cat)}` : API;
+    const r = await fetch(url, { method, signal: ctl.signal, headers: { 'Content-Type': 'application/json' }, body: method === 'POST' ? JSON.stringify(params) : undefined });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const j = await r.json();
+    if (!Array.isArray(j.top)) throw new Error('shape');
+    return j;
+  } finally { clearTimeout(to); }
+}
+function localBoard(cat){ return store.get('dq-board-' + cat, []); }
+function localSubmit(cat, name, score){
+  const list = localBoard(cat);
+  const id = Math.random().toString(36).slice(2, 10);
+  list.push({ name, score, id });
+  list.sort((a, b) => b.score - a.score);
+  const kept = list.slice(0, 100);
+  store.set('dq-board-' + cat, kept);
+  const idx = kept.findIndex(e => e.id === id);
+  return { id, rank: idx >= 0 ? idx + 1 : kept.length + 1, total: kept.length, top: kept.slice(0, 10), local: true };
+}
+async function submitScore(cat, name, score){
+  try { return await apiCall('POST', { cat, name, score }); }
+  catch(e){ return localSubmit(cat, name, score); }
+}
+async function fetchBoard(cat){
+  try { return await apiCall('GET', { cat }); }
+  catch(e){ const l = localBoard(cat); return { top: l.slice(0, 10), total: l.length, local: true }; }
+}
+const TROPHY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v4a5 5 0 0 1-10 0z" fill="#FFC83D" stroke="#141414" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 5H4v1a3 3 0 0 0 3 3M17 5h3v1a3 3 0 0 1-3 3" fill="none" stroke="#141414" stroke-width="1.8"/><path d="M12 12v4M8 20h8l-1-4H9z" fill="#FFC83D" stroke="#141414" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+function renderRank(el, catName, data, me){
+  el.innerHTML = '';
+  const h = document.createElement('div'); h.className = 'rank-h';
+  h.innerHTML = TROPHY + '<h3></h3>'; h.querySelector('h3').textContent = 'RANKING · ' + catName.toUpperCase();
+  const sub = document.createElement('div'); sub.className = 'rank-sub';
+  sub.textContent = data.local ? 'Mejores puntajes en este dispositivo' : `Ranking general · ${fmt(data.total || 0)} partidas`;
+  el.append(h, sub);
+  if (me && me.rank){
+    const you = document.createElement('div'); you.className = 'rank-you';
+    you.textContent = me.rank === 1 ? '¡ERES EL NÚMERO 1!' : `QUEDASTE EN EL PUESTO #${fmt(me.rank)} DE ${fmt(data.total || me.rank)}`;
+    el.append(you);
+  }
+  if (!data.top.length){ const e = document.createElement('div'); e.className = 'empty'; e.textContent = 'Todavía no hay puntajes. ¡Sé el primero!'; el.append(e); return; }
+  const ol = document.createElement('ol');
+  const row = (pos, name, score, isMe) => {
+    const li = document.createElement('li'); if (isMe) li.className = 'me';
+    li.innerHTML = '<span class="pos"></span><span class="nm"></span><span class="pt"></span>';
+    li.children[0].textContent = pos; li.children[1].textContent = name; li.children[2].textContent = fmt(score);
+    return li;
+  };
+  let meShown = false;
+  data.top.forEach((e, i) => { const isMe = !!(me && e.id === me.id); meShown = meShown || isMe; ol.append(row(i + 1, e.name, e.score, isMe)); });
+  if (me && !meShown && me.rank){
+    const g = document.createElement('li'); g.className = 'gap-row'; g.textContent = '· · ·'; ol.append(g);
+    ol.append(row(me.rank, me.name, me.score, true));
+  }
+  el.append(ol);
+}
+function loadingRank(el){ el.innerHTML = '<div class="loading">Cargando ranking…</div>'; }
+
+/* board screen */
+let boardCat = null;
+async function openBoard(catId){
+  boardCat = catId || boardCat || CATS[0].id;
+  $('tabs').innerHTML = CATS.map(c => `<button class="tab" type="button" data-tab="${c.id}" aria-pressed="${c.id === boardCat}">${c.name}</button>`).join('');
+  show('board');
+  const act = $('tabs').querySelector('[aria-pressed="true"]'); if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
+  const cat = CATS.find(c => c.id === boardCat);
+  const el = $('board-rank'); loadingRank(el);
+  const data = await fetchBoard(boardCat);
+  if (boardCat === cat.id) renderRank(el, cat.name, data, null);
+}
+$('open-board').addEventListener('click', () => openBoard());
+$('board-back').addEventListener('click', () => { renderCats(); show('home'); });
+$('tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) openBoard(b.dataset.tab); });
 
 function renderCats(){
   const recs = store.get('dq-records', {});
@@ -390,7 +533,12 @@ function renderCats(){
     </button>`;
   }).join('');
 }
-$('cats').addEventListener('click', (e) => { const b = e.target.closest('[data-cat]'); if (b) start(b.dataset.cat); });
+$('cats').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-cat]'); if (!b) return;
+  if (!syncName()) { needName(); return; }
+  nameInput.value = playerName(); store.set('dq-name', nameInput.value);
+  start(b.dataset.cat);
+});
 
 /* ---------- game ---------- */
 function start(catId){
@@ -496,7 +644,7 @@ function finish(){
   if (isRecord){ recs[S.cat.id] = S.score; store.set('dq-records', recs); }
   const n = S.qs.length, ratio = S.ok / n;
   const stars = ratio === 1 ? 3 : ratio >= .75 ? 2 : ratio >= .5 ? 1 : 0;
-  const name = nameInput.value.trim();
+  const name = playerName();
   let title, text, happy;
   if (stars === 3){ title = name ? `¡${name}, eres experto Dismac!` : '¡Experto Dismac!'; text = 'Respondiste todo bien. Tu equipo está en las mejores manos.'; happy = true; }
   else if (stars === 2){ title = '¡Vas muy bien!'; text = 'Corrige esos detalles y tu equipo te durará mucho más.'; happy = true; }
@@ -516,13 +664,19 @@ function finish(){
   show('result');
   countUp($('r-score'), S.score);
   if (stars >= 2 || isRecord) setTimeout(() => confetti(90), 250);
+  const el = $('r-rank'); loadingRank(el);
+  const cat = S.cat, score = S.score;
+  submitScore(cat.id, name, score).then(res => {
+    if (S.cat !== cat) return;
+    renderRank(el, cat.name, res, { id: res.id, rank: res.rank, name, score });
+  });
 }
 
 $('again').addEventListener('click', () => start(S.cat.id));
 $('other').addEventListener('click', () => { renderCats(); show('home'); });
 $('quit').addEventListener('click', () => { clearInterval(tick); renderCats(); show('home'); });
 $('copy').addEventListener('click', () => {
-  const name = nameInput.value.trim();
+  const name = playerName();
   const txt = `${name ? name + ' sacó' : 'Saqué'} ${fmt(S.score)} puntos (${S.ok}/${S.qs.length} aciertos) en Dismac Quiz · ${S.cat.name}. ¿Me ganas? Lo quieres, lo tienes.`;
   const done = () => $('copied').textContent = '¡Copiado! Pégalo en WhatsApp o en tus redes.';
   const fallback = () => { $('copied').textContent = txt; };
