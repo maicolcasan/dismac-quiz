@@ -36,6 +36,7 @@ body{
   -webkit-tap-highlight-color:transparent;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:4px solid var(--gold);outline-offset:3px}
 .app{max-width:680px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;overflow-x:clip}
@@ -145,6 +146,22 @@ button{font:inherit;color:inherit;cursor:pointer}
   .nh-fb{grid-template-columns:76px minmax(0,1fr)}
   .nh-fb .mascot{width:76px;height:98px}
 }
+/* share + whatsapp */
+.big-btn.wa{background:#25D366;color:#0B2E17;text-decoration:none}
+.big-btn svg{width:24px;height:24px;flex:none}
+a.big-btn{color:inherit;text-decoration:none}
+.link-btn{background:none;border:none;color:#fff;font-weight:800;font-size:15px;text-decoration:underline;padding:6px;justify-self:center}
+.svc{margin-top:18px;background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:var(--sh);padding:14px 16px;display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center}
+.svc .mascot{width:76px;height:98px}
+.svc h3{margin:0 0 4px;font-family:var(--display);font-weight:400;font-size:22px;line-height:1.05}
+.svc p{margin:0 0 10px;font-weight:600;font-size:15px;color:var(--ink-2)}
+.svc .big-btn{min-height:50px;font-size:18px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(20,20,20,.75);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{width:100%;max-width:420px;max-height:100%;overflow:auto;padding:16px;display:grid;gap:12px;text-align:center}
+.modal h3{margin:0;font-family:var(--display);font-weight:400;font-size:26px}
+.modal .prev{width:100%;max-width:300px;aspect-ratio:9/16;margin:0 auto;border:3px solid var(--ink);border-radius:14px;background:var(--cream);display:grid;place-items:center;overflow:hidden;font-weight:800;color:var(--muted)}
+.modal .prev img{width:100%;height:100%;object-fit:cover;display:block}
+.modal .hint{margin:0;font-size:14px;font-weight:700;color:var(--muted)}
 /* ranking */
 .rank{margin-top:18px;padding:16px 16px 12px}
 .rank-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
@@ -467,9 +484,19 @@ button{font:inherit;color:inherit;cursor:pointer}
     <section class="card rank" id="r-rank" aria-live="polite"></section>
     <div class="actions">
       <button class="big-btn gold" id="again" type="button">JUGAR DE NUEVO</button>
-      <button class="big-btn white" id="other" type="button">OTRA CATEGORÍA</button>
-      <button class="big-btn ink" id="copy" type="button">COPIAR MI RESULTADO</button>
+      <button class="big-btn white" id="share" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="#141414" stroke-width="2"/><circle cx="9" cy="9" r="2" fill="#141414"/><path d="M21 15l-5-5-9 9" fill="none" stroke="#141414" stroke-width="2" stroke-linejoin="round"/></svg>COMPARTIR MI RESULTADO</button>
+      <a class="big-btn wa" id="challenge" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8.5 8.5 0 1 1 8.5 19z" fill="none" stroke="#0B2E17" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 9.5c.5 2.5 2.5 4.5 5 5l1.2-1.4" fill="none" stroke="#0B2E17" stroke-width="2" stroke-linecap="round"/></svg>RETAR A UN AMIGO</a>
+      <button class="big-btn ink" id="other" type="button">OTRA CATEGORÍA</button>
+      <button class="link-btn" id="copy" type="button">Copiar texto del resultado</button>
       <div class="copied" id="copied" aria-live="polite"></div>
+    </div>
+    <div class="svc">
+      <div class="mascot" aria-hidden="true"><svg width="100%" height="100%" viewBox="0 0 300 385" aria-label="Técnico Dismac"><ellipse cx="150" cy="372" rx="110" ry="8" fill="#141414" opacity="0.12"></ellipse><path d="M66 380 L80 252 Q150 226 220 252 L234 380 Z" fill="#141414"></path><path d="M120 240 L150 266 L180 240" fill="none" stroke="#D7141A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path><rect x="176" y="290" width="34" height="12" rx="2" fill="#D7141A"></rect><rect x="193" y="290" width="17" height="12" rx="1" fill="#FFFFFF"></rect><line x1="80" y1="262" x2="62" y2="312" stroke="#141414" stroke-width="30" stroke-linecap="round"></line><line x1="62" y1="312" x2="100" y2="332" stroke="#F2C4A0" stroke-width="20" stroke-linecap="round"></line><circle cx="104" cy="332" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><rect x="135" y="212" width="30" height="34" rx="0" fill="#F2C4A0"></rect><circle cx="88" cy="166" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><circle cx="212" cy="166" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><circle cx="150" cy="162" r="64" fill="#F2C4A0" stroke="#C98E68" stroke-width="3"></circle><path d="M86 138 Q150 56 214 138 Z" fill="#D7141A"></path><ellipse cx="150" cy="138" rx="72" ry="10" fill="#A50F14"></ellipse><circle cx="150" cy="86" r="6" fill="#FFFFFF"></circle><ellipse cx="128" cy="174" rx="8" ry="10" fill="#141414"></ellipse><ellipse cx="172" cy="174" rx="8" ry="10" fill="#141414"></ellipse><circle cx="131" cy="170" r="3" fill="#FFFFFF"></circle><circle cx="175" cy="170" r="3" fill="#FFFFFF"></circle><path d="M114 158 Q126 151 138 158 M162 158 Q174 151 186 158" fill="none" stroke="#3A2A1E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><ellipse cx="110" cy="190" rx="9" ry="5" fill="#F29A8A" opacity="0.6"></ellipse><ellipse cx="190" cy="190" rx="9" ry="5" fill="#F29A8A" opacity="0.6"></ellipse><path d="M128 194 Q150 218 172 194 Z" fill="#7A1E1E"></path><g class=""><line x1="222" y1="262" x2="238" y2="212" stroke="#141414" stroke-width="30" stroke-linecap="round"></line><line x1="238" y1="212" x2="248" y2="172" stroke="#F2C4A0" stroke-width="22" stroke-linecap="round"></line><g transform="translate(236 138) rotate(-10)"><rect x="0" y="-44" width="16" height="50" rx="8" fill="#F2C4A0" stroke="#C98E68" stroke-width="2.5"></rect></g><rect x="228" y="130" width="46" height="44" rx="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2.5"></rect><line x1="252" y1="142" x2="272" y2="142" stroke="#C98E68" stroke-width="2.5" stroke-linecap="round"></line><line x1="252" y1="152" x2="272" y2="152" stroke="#C98E68" stroke-width="2.5" stroke-linecap="round"></line><line x1="252" y1="162" x2="270" y2="162" stroke="#C98E68" stroke-width="2.5" stroke-linecap="round"></line><path d="M284 96 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 Z" fill="#F2C94C"></path></g></svg></div>
+      <div>
+        <h3>¿TU EQUIPO TIENE ALGÚN PROBLEMA?</h3>
+        <p>Escríbele a Servicio Técnico Dismac por WhatsApp y te ayudamos.</p>
+        <a class="big-btn wa" id="svc-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8.5 8.5 0 1 1 8.5 19z" fill="none" stroke="#0B2E17" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 9.5c.5 2.5 2.5 4.5 5 5l1.2-1.4" fill="none" stroke="#0B2E17" stroke-width="2" stroke-linecap="round"/></svg>ESCRIBIR AL 75010500</a>
+      </div>
     </div>
     <div class="contact" id="contact-res"></div>
     <div class="gap"></div>
@@ -479,6 +506,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 </div>
 
 <div class="sheet" id="sheet" hidden></div>
+<div class="modal" id="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-title">
+  <div class="card box">
+    <h3 id="share-title">TU RESULTADO PARA HISTORIAS</h3>
+    <div class="prev" id="share-prev">Generando imagen…</div>
+    <button class="big-btn gold" id="share-native" type="button" hidden>COMPARTIR</button>
+    <a class="big-btn white" id="share-dl" href="#" download="dismac-quiz.png">DESCARGAR IMAGEN</a>
+    <p class="hint">En el celular también puedes mantener presionada la imagen para guardarla.</p>
+    <button class="big-btn ink" id="share-close" type="button">CERRAR</button>
+  </div>
+</div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <template id="t-angry"><svg width="100%" height="100%" viewBox="0 0 300 385" aria-label="Técnico Dismac"><ellipse cx="150" cy="372" rx="110" ry="8" fill="#141414" opacity="0.12"></ellipse><path d="M66 380 L80 252 Q150 226 220 252 L234 380 Z" fill="#141414"></path><path d="M120 240 L150 266 L180 240" fill="none" stroke="#D7141A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path><rect x="176" y="290" width="34" height="12" rx="2" fill="#D7141A"></rect><rect x="193" y="290" width="17" height="12" rx="1" fill="#FFFFFF"></rect><line x1="80" y1="262" x2="62" y2="312" stroke="#141414" stroke-width="30" stroke-linecap="round"></line><line x1="62" y1="312" x2="100" y2="332" stroke="#F2C4A0" stroke-width="20" stroke-linecap="round"></line><circle cx="104" cy="332" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><rect x="135" y="212" width="30" height="34" rx="0" fill="#F2C4A0"></rect><circle cx="88" cy="166" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><circle cx="212" cy="166" r="13" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><circle cx="150" cy="162" r="64" fill="#F2C4A0" stroke="#C98E68" stroke-width="3"></circle><path d="M86 138 Q150 56 214 138 Z" fill="#D7141A"></path><ellipse cx="150" cy="138" rx="72" ry="10" fill="#A50F14"></ellipse><circle cx="150" cy="86" r="6" fill="#FFFFFF"></circle><ellipse cx="128" cy="174" rx="8" ry="10" fill="#141414"></ellipse><ellipse cx="172" cy="174" rx="8" ry="10" fill="#141414"></ellipse><circle cx="131" cy="170" r="3" fill="#FFFFFF"></circle><circle cx="175" cy="170" r="3" fill="#FFFFFF"></circle><path d="M112 154 L138 160 M188 154 L162 160" fill="none" stroke="#3A2A1E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><ellipse cx="110" cy="190" rx="9" ry="5" fill="#F29A8A" opacity="0.6"></ellipse><ellipse cx="190" cy="190" rx="9" ry="5" fill="#F29A8A" opacity="0.6"></ellipse><ellipse cx="150" cy="202" rx="13" ry="11" fill="#7A1E1E"></ellipse><ellipse cx="150" cy="207" rx="7" ry="4" fill="#E86A6A"></ellipse><g class="wag"><line x1="222" y1="262" x2="240" y2="214" stroke="#141414" stroke-width="30" stroke-linecap="round"></line><line x1="240" y1="214" x2="252" y2="152" stroke="#F2C4A0" stroke-width="22" stroke-linecap="round"></line><circle cx="254" cy="142" r="17" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></circle><rect x="247" y="92" width="13" height="44" rx="6" fill="#F2C4A0" stroke="#C98E68" stroke-width="2"></rect></g></svg></template>
@@ -778,8 +815,10 @@ function finish(){
   if (stars >= 2 || isRecord) setTimeout(() => confetti(90), 250);
   const el = $('r-rank'); loadingRank(el);
   const cat = S.cat, score = S.score;
+  setResult({ cat, name, score, ok: S.ok, n, best: S.best, stars });
   submitScore(cat.id, name, score).then(res => {
     if (S.cat !== cat) return;
+    LAST.rank = res.rank; LAST.total = res.total; LAST.local = !!res.local;
     renderRank(el, cat.name, res, { id: res.id, rank: res.rank, name, score });
   });
 }
@@ -787,9 +826,100 @@ function finish(){
 $('again').addEventListener('click', () => S.cat.id === NH_CAT.id ? startNH() : start(S.cat.id));
 $('other').addEventListener('click', () => { renderCats(); show('home'); });
 $('quit').addEventListener('click', () => { clearInterval(tick); renderCats(); show('home'); });
+/* ---------- compartir y WhatsApp ---------- */
+const GAME_URL = 'https://dismac-quiz.vercel.app';
+const SVC_WA = '59175010500';
+let LAST = null;
+const challengeText = () => `${LAST.name} sacó ${fmt(LAST.score)} puntos en Dismac Quiz · ${LAST.cat.name} (${LAST.ok}/${LAST.n} aciertos). ¿Me ganas? Juega aquí: ${GAME_URL}`;
+$('svc-wa').href = `https://wa.me/${SVC_WA}?text=${encodeURIComponent('Hola Dismac, jugué Dismac Quiz y quiero hacer una consulta sobre mi equipo.')}`;
+function setResult(r){
+  LAST = Object.assign({ rank: null, total: null, local: true }, r);
+  $('challenge').href = 'https://wa.me/?text=' + encodeURIComponent(challengeText());
+}
+const cssColor = (v) => { const m = String(v).match(/var\((--[^)]+)\)/); return m ? getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim() : v; };
+function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function starPath(ctx, cx, cy, R){ ctx.beginPath(); for (let i = 0; i < 10; i++){ const r = i % 2 ? R * .45 : R, a = -Math.PI / 2 + i * Math.PI / 5; ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); } ctx.closePath(); }
+function loadImg(src){ return new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = src; }); }
+function svgImg(id){
+  let s = $(id).innerHTML.trim().replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/width="100%" height="100%"/, 'width="300" height="385"').replace(/class="wag"/g, '');
+  return loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s));
+}
+async function makeCard(){
+  try { await Promise.all([document.fonts.load('400 120px Anton'), document.fonts.load('800 40px Barlow')]); } catch(e){}
+  const W = 1080, H = 1920, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  const D = "Anton, Impact, 'Arial Narrow', sans-serif", B = "Barlow, 'Segoe UI', sans-serif";
+  const g = x.createRadialGradient(W / 2, 0, 50, W / 2, 400, 1500); g.addColorStop(0, '#EE2A31'); g.addColorStop(.45, '#C8101A'); g.addColorStop(1, '#8E0A10');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.fillStyle = 'rgba(0,0,0,.16)'; for (let yy = 14; yy < H; yy += 28) for (let xx = 14; xx < W; xx += 28){ x.beginPath(); x.arc(xx, yy, 3, 0, 7); x.fill(); }
+  // barra superior
+  x.fillStyle = '#141414'; x.fillRect(0, 0, W, 160); x.fillStyle = '#FFC83D'; x.fillRect(0, 160, W, 10);
+  try { const logo = await loadImg(document.querySelector('.bar img').src); const lh = 76, lw = logo.width * lh / logo.height; x.drawImage(logo, 60, 42, lw, lh); } catch(e){}
+  x.fillStyle = '#fff'; x.font = `48px ${D}`; x.textAlign = 'right'; x.fillText('QUIZ EN VIVO', W - 60, 100);
+  // título
+  x.save(); x.translate(80, 430); x.rotate(-.06); x.textAlign = 'left';
+  x.font = `190px ${D}`; x.lineWidth = 10; x.strokeStyle = '#141414';
+  x.fillStyle = '#141414'; x.fillText('DISMAC', 10, 10); x.fillStyle = '#fff'; x.strokeText('DISMAC', 0, 0); x.fillText('DISMAC', 0, 0);
+  x.fillStyle = '#141414'; x.fillText('QUIZ', 10, 170); x.fillStyle = '#FFC83D'; x.strokeText('QUIZ', 0, 160); x.fillText('QUIZ', 0, 160);
+  x.restore();
+  // tarjeta
+  const cx = 70, cy = 680, cw = 940, ch = 960;
+  x.fillStyle = '#141414'; rr(x, cx + 16, cy + 16, cw, ch, 40); x.fill();
+  x.fillStyle = '#fff'; rr(x, cx, cy, cw, ch, 40); x.fill(); x.lineWidth = 8; x.strokeStyle = '#141414'; x.stroke();
+  // etiqueta categoría
+  x.font = `46px ${D}`; x.textAlign = 'center';
+  const lab = LAST.cat.name.toUpperCase(), lw2 = Math.min(900, x.measureText(lab).width + 70);
+  x.fillStyle = cssColor(COLORS[LAST.cat.id] || 'var(--stage)'); rr(x, W / 2 - lw2 / 2, cy - 40, lw2, 84, 42); x.fill(); x.lineWidth = 6; x.stroke();
+  x.fillStyle = LAST.cat.id === 'nohagas' ? '#fff' : '#141414'; x.fillText(lab, W / 2, cy + 18, 860);
+  // estrellas
+  [-150, 0, 150].forEach((dx, k) => { starPath(x, W / 2 + dx, cy + 150 - (k === 1 ? 14 : 0), k === 1 ? 68 : 56); x.fillStyle = k < LAST.stars ? '#FFC83D' : '#E4E6EA'; x.fill(); x.lineWidth = 6; x.strokeStyle = '#141414'; x.stroke(); });
+  // puntaje
+  x.font = `230px ${D}`; x.fillStyle = '#141414'; x.fillText(fmt(LAST.score), W / 2 + 8, cy + 445, 840); x.fillStyle = '#C8101A'; x.fillText(fmt(LAST.score), W / 2, cy + 437, 840);
+  x.font = `800 40px ${B}`; x.fillStyle = '#5E646B'; x.fillText('P U N T O S', W / 2, cy + 500);
+  // nombre y puesto
+  x.font = `96px ${D}`; x.fillStyle = '#141414'; x.fillText(LAST.name, W / 2, cy + 630, 820);
+  if (LAST.rank){
+    const t = LAST.local ? `PUESTO #${fmt(LAST.rank)} EN ESTE DISPOSITIVO` : `PUESTO #${fmt(LAST.rank)} DE ${fmt(LAST.total || LAST.rank)} EN EL RANKING`;
+    x.font = `46px ${D}`; const tw = Math.min(880, x.measureText(t).width + 70);
+    x.fillStyle = '#FFC83D'; rr(x, W / 2 - tw / 2, cy + 670, tw, 80, 40); x.fill(); x.lineWidth = 6; x.strokeStyle = '#141414'; x.stroke();
+    x.fillStyle = '#141414'; x.fillText(t, W / 2, cy + 727, 820);
+  }
+  x.font = `800 42px ${B}`; x.fillStyle = '#2B2F33'; x.fillText(`${LAST.ok}/${LAST.n} aciertos · mejor racha ${LAST.best}`, W / 2, cy + 830, 640);
+  // técnico
+  try { const m = await svgImg(LAST.stars >= 2 ? 't-happy' : 't-angry'); x.drawImage(m, cx + cw - 175, cy + ch - 205, 156, 200); } catch(e){}
+  // cierre
+  x.textAlign = 'center'; x.font = `120px ${D}`; x.fillStyle = '#141414'; x.fillText('¿ME GANAS?', W / 2 + 7, 1757); x.fillStyle = '#fff'; x.fillText('¿ME GANAS?', W / 2, 1750);
+  x.font = `800 40px ${B}`; x.fillText('Juega en dismac-quiz.vercel.app', W / 2, 1812, 960);
+  x.fillStyle = '#141414'; x.fillRect(0, H - 90, W, 90); x.fillStyle = '#FFC83D'; x.fillRect(0, H - 96, W, 6);
+  x.font = `46px ${D}`; x.fillStyle = '#fff'; x.fillText('LO QUIERES, LO TIENES.', W / 2, H - 28, 960);
+  return c;
+}
+let shareUrl = null;
+$('share').addEventListener('click', async () => {
+  if (!LAST) return;
+  const m = $('share-modal'); m.hidden = false; $('share-prev').textContent = 'Generando imagen…';
+  $('share-native').hidden = true;
+  const canvas = await makeCard();
+  const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+  if (shareUrl) URL.revokeObjectURL(shareUrl);
+  shareUrl = URL.createObjectURL(blob);
+  const img = new Image(); img.alt = 'Tu resultado de Dismac Quiz'; img.src = shareUrl;
+  $('share-prev').innerHTML = ''; $('share-prev').appendChild(img);
+  $('share-dl').href = shareUrl;
+  const file = new File([blob], 'dismac-quiz.png', { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })){
+    $('share-native').hidden = false;
+    $('share-native').onclick = () => navigator.share({ files: [file], text: challengeText() }).catch(() => {});
+  }
+  $('share-close').focus();
+});
+$('share-close').addEventListener('click', () => { $('share-modal').hidden = true; $('share').focus(); });
+$('share-modal').addEventListener('click', (e) => { if (e.target.id === 'share-modal') $('share-modal').hidden = true; });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('share-modal').hidden = true; });
+
 $('copy').addEventListener('click', () => {
-  const name = playerName();
-  const txt = `${name ? name + ' sacó' : 'Saqué'} ${fmt(S.score)} puntos (${S.ok}/${S.qs.length} aciertos) en Dismac Quiz · ${S.cat.name}. ¿Me ganas? Lo quieres, lo tienes.`;
+  if (!LAST) return;
+  const txt = challengeText();
   const done = () => $('copied').textContent = '¡Copiado! Pégalo en WhatsApp o en tus redes.';
   const fallback = () => { $('copied').textContent = txt; };
   try { navigator.clipboard.writeText(txt).then(done, fallback); } catch(e){ fallback(); }
@@ -937,7 +1067,8 @@ function nhEnd(reason){
   if (stars >= 2 || isRecord) setTimeout(() => confetti(90), 250);
   const el = $('r-rank'); loadingRank(el);
   const score = N.score;
-  submitScore(NH_CAT.id, name, score).then(res => renderRank(el, NH_CAT.name, res, { id: res.id, rank: res.rank, name, score }));
+  setResult({ cat: NH_CAT, name, score, ok: N.ok, n: N.seen, best: N.best, stars });
+  submitScore(NH_CAT.id, name, score).then(res => { LAST.rank = res.rank; LAST.total = res.total; LAST.local = !!res.local; renderRank(el, NH_CAT.name, res, { id: res.id, rank: res.rank, name, score }); });
 }
 
 renderCats();
